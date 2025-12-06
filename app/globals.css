@@ -1,0 +1,204 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* GT America Font Faces - self-hosted woff2 */
+@font-face {
+  font-family: 'GT America';
+  src: url('/fonts/GTAmerica-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GT America';
+  src: url('/fonts/GTAmerica-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Base Layer */
+@layer base {
+  :root {
+    --color-cream: #F9F8F5;
+    --color-black: #0A0A0A;
+    --color-gray: #555555;
+    --color-light-gray: #CCCCCC;
+    --color-mid-gray: #888888;
+    
+    /* Editorial spacing rhythm */
+    --space-unit: 8px;
+    --grid-gutter: 24px;
+    --margin-page: clamp(24px, 5vw, 80px);
+  }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-nl-cream text-nl-black font-gt-america;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+  }
+
+  /* Editorial selection style */
+  ::selection {
+    background-color: var(--color-black);
+    color: var(--color-cream);
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Focus states - accessible but minimal */
+  *:focus-visible {
+    outline: 1px solid var(--color-black);
+    outline-offset: 2px;
+  }
+}
+
+/* Component Layer */
+@layer components {
+  /* Editorial link style */
+  .link-editorial {
+    @apply text-nl-gray transition-all duration-300;
+    position: relative;
+  }
+
+  .link-editorial::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: var(--color-black);
+    transition: width 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .link-editorial:hover {
+    @apply text-nl-black;
+  }
+
+  .link-editorial:hover::after {
+    width: 100%;
+  }
+
+  /* Plus symbol - brand element */
+  .plus-symbol {
+    display: inline-block;
+    position: relative;
+    width: 1em;
+    height: 1em;
+  }
+
+  .plus-symbol::before,
+  .plus-symbol::after {
+    content: '';
+    position: absolute;
+    background-color: currentColor;
+    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .plus-symbol::before {
+    width: 100%;
+    height: 1px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+
+  .plus-symbol::after {
+    width: 1px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+  }
+
+  /* Hover rotation for plus */
+  .plus-symbol-rotate:hover::before,
+  .plus-symbol-rotate:hover::after {
+    transform: rotate(45deg);
+  }
+
+  /* Grid container */
+  .grid-editorial {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--grid-gutter);
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 var(--margin-page);
+  }
+
+  /* Divider line */
+  .divider {
+    @apply h-px bg-nl-light-gray w-full;
+  }
+
+  /* Uppercase label style */
+  .label {
+    @apply text-small uppercase tracking-widest text-nl-gray;
+  }
+
+  /* Scroll progress indicator */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 1px;
+    background-color: var(--color-black);
+    transform-origin: left;
+    z-index: 100;
+  }
+}
+
+/* Utility Layer */
+@layer utilities {
+  /* Animation delays for staggered reveals */
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+
+  /* Text balance for headlines */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Grayscale filter for images */
+  .grayscale-editorial {
+    filter: grayscale(100%) contrast(1.1);
+    transition: filter 0.4s ease;
+  }
+
+  .grayscale-editorial:hover {
+    filter: grayscale(0%) contrast(1);
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+  .dark-mode-auto {
+    --color-cream: #0A0A0A;
+    --color-black: #F9F8F5;
+  }
+}
