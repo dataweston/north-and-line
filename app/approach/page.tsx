@@ -181,10 +181,15 @@ export default function ApproachPage() {
             </FadeIn>
             <FadeIn delay={0.3}>
               <p className="mt-6 text-body text-nl-gray max-w-2xl">
-                We believe PR works best when it&apos;s integrated into how an organization 
-                operates, not bolted on as an afterthought. That requires time, access, 
-                and genuine partnership—commodities that don&apos;t scale efficiently 
+                We believe PR works best when it&apos;s integrated into how an organization
+                operates, not bolted on as an afterthought. That requires time, access,
+                and genuine partnership—commodities that don&apos;t scale efficiently
                 but produce dramatically better outcomes.
+              </p>
+            </FadeIn>
+            <FadeIn delay={0.4}>
+              <p className="mt-6 text-body text-nl-gray max-w-2xl">
+                For select clients, we act as the primary liaison for press, partnerships, and appearances.
               </p>
             </FadeIn>
           </div>

@@ -10,19 +10,9 @@ export const metadata: Metadata = {
 
 const partners = [
   {
-    name: 'Sarah Mitchell',
+    name: 'Bob Pucker',
     role: 'Founding Partner',
-    bio: 'Two decades in earned media strategy, previously leading communications for Fortune 500 companies. Sarah founded North & Line on the principle that the best PR is indistinguishable from the truth.',
-  },
-  {
-    name: 'James Thornton',
-    role: 'Partner, Strategy',
-    bio: 'Former journalist turned strategist. James brings a reporter\'s skepticism to every story we tell, ensuring our clients\' narratives hold up under scrutiny.',
-  },
-  {
-    name: 'Elena Reyes',
-    role: 'Partner, Media Relations',
-    bio: 'Built media relationships across business, tech, and lifestyle beats. Elena\'s approach: understand what reporters actually need, then deliver exactly that.',
+    bio: 'Twenty years in narrative work across restaurants, hospitality groups, and operators in transition. I built my practice on the idea that most reputations rise or fall on clarity, not volume. At North & Line, I serve as the editorial spine—keeping the story aligned with the work itself.',
   },
 ];
 
@@ -51,7 +41,7 @@ export default function AboutPage() {
       <PageHeader
         label="About"
         title="We believe the best public relations is indistinguishable from the truth."
-        subtitle="North & Line is a Minneapolis-based firm built for companies that value substance."
+        subtitle="North & Line is a Minneapolis-based firm built for companies that value substance. We represent chefs and founders whose work benefits from disciplined storytelling."
       />
 
       {/* Philosophy Section */}
@@ -79,10 +69,10 @@ export default function AboutPage() {
             </FadeIn>
             <FadeIn delay={0.3}>
               <p className="mt-6 text-body text-nl-gray max-w-2xl">
-                This isn&apos;t idealism. It&apos;s strategy. In an era of 
-                information overload, audiences have developed sharp instincts 
-                for inauthenticity. The organizations that will build lasting 
-                reputations are those willing to be genuinely transparent about 
+                This isn&apos;t idealism. It&apos;s strategy. In an era of
+                information overload, audiences have developed sharp instincts
+                for inauthenticity. The organizations that will build lasting
+                reputations are those willing to be genuinely transparent about
                 who they are and what they do.
               </p>
             </FadeIn>
