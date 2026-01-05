@@ -4,18 +4,39 @@ import { useState } from 'react';
 import PageHeader from '@/components/PageHeader';
 import Section from '@/components/Section';
 import FadeIn from '@/components/FadeIn';
+import { trackContactFormSubmit } from '@/lib/analytics';
+
+type FormStageType = 'pre-seed' | 'seed' | 'series-a' | 'series-b' | 'growth' | 'established' | 'other' | '';
+type FormBudgetType = 'under-5k' | '5k-10k' | '10k-20k' | '20k-plus' | 'project' | 'flexible' | '';
+type FormGoalType = 'launch' | 'fundraise' | 'reposition' | 'ongoing-press' | 'executive-visibility' | 'crisis' | 'other' | '';
+type FormTimelineType = 'now' | '30d' | '90d' | 'exploring' | '';
+
+interface FormState {
+  name: string;
+  email: string;
+  company: string;
+  stage: FormStageType;
+  budget: FormBudgetType;
+  goal: FormGoalType;
+  timeline: FormTimelineType;
+  message: string;
+}
 
 export default function ContactPage() {
-  const [formState, setFormState] = useState({
+  const [formState, setFormState] = useState<FormState>({
     name: '',
     email: '',
     company: '',
+    stage: '',
+    budget: '',
+    goal: '',
+    timeline: '',
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
@@ -23,6 +44,14 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    
+    // Track form submission
+    trackContactFormSubmit({
+      stage: formState.stage,
+      budget: formState.budget,
+      goal: formState.goal,
+      timeline: formState.timeline,
+    });
     
     // Simulate form submission
     // In production, this would POST to an API endpoint
@@ -62,7 +91,7 @@ export default function ContactPage() {
                 <FadeIn delay={0.1}>
                   <div>
                     <label htmlFor="name" className="label block mb-3">
-                      Name
+                      Name *
                     </label>
                     <input
                       type="text"
@@ -82,7 +111,7 @@ export default function ContactPage() {
                 <FadeIn delay={0.15}>
                   <div>
                     <label htmlFor="email" className="label block mb-3">
-                      Email
+                      Email *
                     </label>
                     <input
                       type="email"
@@ -102,26 +131,127 @@ export default function ContactPage() {
                 <FadeIn delay={0.2}>
                   <div>
                     <label htmlFor="company" className="label block mb-3">
-                      Company
+                      Company *
                     </label>
                     <input
                       type="text"
                       id="company"
                       name="company"
+                      required
                       value={formState.company}
                       onChange={handleChange}
                       className="w-full bg-transparent border-b border-nl-light-gray pb-3 text-body 
                                  focus:outline-none focus:border-nl-black transition-colors
                                  placeholder:text-nl-light-gray"
-                      placeholder="Your company (optional)"
+                      placeholder="Your company"
                     />
                   </div>
                 </FadeIn>
 
                 <FadeIn delay={0.25}>
                   <div>
+                    <label htmlFor="stage" className="label block mb-3">
+                      Company Stage *
+                    </label>
+                    <select
+                      id="stage"
+                      name="stage"
+                      required
+                      value={formState.stage}
+                      onChange={handleChange}
+                      className="w-full bg-transparent border-b border-nl-light-gray pb-3 text-body 
+                                 focus:outline-none focus:border-nl-black transition-colors"
+                    >
+                      <option value="">Select stage...</option>
+                      <option value="pre-seed">Pre-seed</option>
+                      <option value="seed">Seed</option>
+                      <option value="series-a">Series A</option>
+                      <option value="series-b">Series B+</option>
+                      <option value="growth">Growth stage</option>
+                      <option value="established">Established</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </FadeIn>
+
+                <FadeIn delay={0.3}>
+                  <div>
+                    <label htmlFor="budget" className="label block mb-3">
+                      Budget Range *
+                    </label>
+                    <select
+                      id="budget"
+                      name="budget"
+                      required
+                      value={formState.budget}
+                      onChange={handleChange}
+                      className="w-full bg-transparent border-b border-nl-light-gray pb-3 text-body 
+                                 focus:outline-none focus:border-nl-black transition-colors"
+                    >
+                      <option value="">Select budget...</option>
+                      <option value="under-5k">Under $5,000/month</option>
+                      <option value="5k-10k">$5,000-$10,000/month</option>
+                      <option value="10k-20k">$10,000-$20,000/month</option>
+                      <option value="20k-plus">$20,000+/month</option>
+                      <option value="project">Project-based</option>
+                      <option value="flexible">Flexible</option>
+                    </select>
+                  </div>
+                </FadeIn>
+
+                <FadeIn delay={0.35}>
+                  <div>
+                    <label htmlFor="goal" className="label block mb-3">
+                      Primary Goal *
+                    </label>
+                    <select
+                      id="goal"
+                      name="goal"
+                      required
+                      value={formState.goal}
+                      onChange={handleChange}
+                      className="w-full bg-transparent border-b border-nl-light-gray pb-3 text-body 
+                                 focus:outline-none focus:border-nl-black transition-colors"
+                    >
+                      <option value="">Select goal...</option>
+                      <option value="launch">Product/company launch</option>
+                      <option value="fundraise">Fundraising announcement</option>
+                      <option value="reposition">Brand repositioning</option>
+                      <option value="ongoing-press">Ongoing press coverage</option>
+                      <option value="executive-visibility">Executive visibility</option>
+                      <option value="crisis">Crisis/issues management</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </FadeIn>
+
+                <FadeIn delay={0.4}>
+                  <div>
+                    <label htmlFor="timeline" className="label block mb-3">
+                      Timeline *
+                    </label>
+                    <select
+                      id="timeline"
+                      name="timeline"
+                      required
+                      value={formState.timeline}
+                      onChange={handleChange}
+                      className="w-full bg-transparent border-b border-nl-light-gray pb-3 text-body 
+                                 focus:outline-none focus:border-nl-black transition-colors"
+                    >
+                      <option value="">Select timeline...</option>
+                      <option value="now">Immediately</option>
+                      <option value="30d">Within 30 days</option>
+                      <option value="90d">Within 90 days</option>
+                      <option value="exploring">Exploring options</option>
+                    </select>
+                  </div>
+                </FadeIn>
+
+                <FadeIn delay={0.45}>
+                  <div>
                     <label htmlFor="message" className="label block mb-3">
-                      Message
+                      Tell us more *
                     </label>
                     <textarea
                       id="message"
@@ -138,7 +268,7 @@ export default function ContactPage() {
                   </div>
                 </FadeIn>
 
-                <FadeIn delay={0.3}>
+                <FadeIn delay={0.5}>
                   <button
                     type="submit"
                     disabled={isSubmitting}

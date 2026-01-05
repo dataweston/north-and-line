@@ -2,7 +2,23 @@
 
 Editorial website for North & Line, a public relations firm based in Minneapolis.
 
-**Live Preview:** [Vercel deployment URL]
+**Status:** ✅ Conversion-focused website overhaul complete
+
+---
+
+## What Changed in This Overhaul
+
+### From Editorial Showcase → Conversion-Focused Marketing Site
+
+This PR transformed the site from a minimal editorial portfolio into a comprehensive conversion-optimized website designed to drive inquiries from qualified prospects.
+
+**Key Improvements:**
+- **Homepage redesigned** with clear value proposition, proof metrics, and multiple CTAs
+- **6 service detail pages** created with deliverables, outcomes, and pricing guidance
+- **Enhanced contact form** with qualification fields (stage, budget, goal, timeline)
+- **Analytics tracking** implemented for all conversion events (GA4 ready)
+- **Content management system** enhanced with new schemas for services and expanded case studies
+- **Documentation** added for managing content and tracking analytics
 
 ---
 
@@ -10,7 +26,7 @@ Editorial website for North & Line, a public relations firm based in Minneapolis
 
 > "Clarity ages better than charisma."
 
-The site acts as an editorial dossier, not a brochure. The visual rhythm mirrors the print identity: wide margins, tight type control, deliberate pauses of white.
+The site acts as a conversion-focused PR agency website while maintaining editorial sophistication. The visual rhythm mirrors the print identity: wide margins, tight type control, deliberate pauses of white.
 
 ---
 
@@ -25,7 +41,7 @@ The site acts as an editorial dossier, not a brochure. The visual rhythm mirrors
 | Hosting | Vercel |
 | Image CDN | Cloudinary |
 | Fonts | GT America (Regular / Medium), self-hosted woff2 |
-| Analytics | Plausible or GA4 |
+| Analytics | Google Analytics 4 |
 
 ---
 
@@ -42,13 +58,11 @@ The site acts as an editorial dossier, not a brochure. The visual rhythm mirrors
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/north-and-line.git
+git clone https://github.com/dataweston/north-and-line.git
 cd north-and-line
 
 # Install dependencies
 npm install
-# or
-bun install
 
 # Copy environment variables
 cp .env.example .env.local
@@ -66,6 +80,7 @@ NEXT_PUBLIC_SANITY_PROJECT_ID=your-project-id
 NEXT_PUBLIC_SANITY_DATASET=production
 NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your-cloud-name
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_SITE_URL=https://northandline.com
 ```
 
 ---
@@ -77,47 +92,119 @@ north-and-line/
 ├── app/                    # Next.js App Router pages
 │   ├── about/
 │   ├── approach/
-│   ├── contact/
+│   ├── contact/            # Enhanced with qualification fields
 │   ├── press/
+│   ├── services/           # NEW: Services hub + 6 detail pages
+│   │   ├── page.tsx
+│   │   ├── narrative-positioning/
+│   │   ├── earned-media/
+│   │   ├── executive-comms/
+│   │   ├── launch-strategy/
+│   │   ├── content-pr-enablement/
+│   │   └── crisis-issues/
 │   ├── work/
-│   ├── globals.css         # Global styles + font-face
-│   ├── layout.tsx          # Root layout
-│   └── page.tsx            # Home page
+│   ├── globals.css
+│   ├── layout.tsx          # GA4 + tracking integrated
+│   ├── page.tsx            # Completely redesigned homepage
+│   ├── sitemap.ts          # NEW: Dynamic sitemap
+│   └── robots.ts           # NEW: SEO robots config
 ├── components/             # Shared React components
-│   ├── FadeIn.tsx         # Animation wrapper
-│   ├── Footer.tsx
-│   ├── Header.tsx
+│   ├── AnalyticsTracker.tsx    # NEW: Page view tracking
+│   ├── CTABand.tsx             # NEW: Reusable CTA section
+│   ├── CTAButton.tsx           # NEW: Tracked CTA button
+│   ├── CaseStudyCard.tsx       # NEW: Case study preview
+│   ├── FAQAccordion.tsx        # NEW: Animated FAQ
+│   ├── FadeIn.tsx
+│   ├── Footer.tsx              # Updated with Services link
+│   ├── GoogleAnalytics.tsx     # NEW: GA4 integration
+│   ├── Header.tsx              # Updated with Services + CTA
 │   ├── PageHeader.tsx
 │   ├── ScrollProgress.tsx
-│   └── Section.tsx
+│   ├── Section.tsx
+│   ├── ServiceCard.tsx         # NEW: Service preview
+│   └── Testimonial.tsx         # NEW: Testimonial display
 ├── lib/                    # Utility functions
+│   ├── analytics.ts        # NEW: Type-safe analytics helpers
 │   └── sanity.ts          # Sanity client + queries
 ├── public/
 │   ├── fonts/             # Self-hosted GT America woff2
 │   └── favicon.svg
 ├── sanity/
 │   └── schemas/           # Sanity document schemas
-│       ├── caseStudy.ts
+│       ├── caseStudy.ts   # ENHANCED: More detailed fields
+│       ├── service.ts     # NEW: Service content type
 │       ├── page.ts
 │       ├── pressRelease.ts
 │       └── index.ts
-├── sanity.config.ts       # Sanity studio config
-├── tailwind.config.ts     # Tailwind configuration
-└── next.config.js
+├── CONTENT_GUIDE.md       # NEW: How to manage content
+├── IMPLEMENTATION_GUIDE.md
+└── README.md              # This file
 ```
 
 ---
 
 ## Page Architecture
 
-| Page | Route | Description |
-|------|-------|-------------|
-| Home | `/` | Minimal headline, manifesto, preview sections |
-| About | `/about` | Firm ethos, partner bios, philosophy quotes |
-| Work | `/work` | 3–5 case summaries with proof points |
-| Approach | `/approach` | Methodology diagram: Core Story → Proof → Voice |
-| Press | `/press` | Auto-pull from Sanity CMS |
-| Contact | `/contact` | Minimal form + press email |
+| Page | Route | Status | Description |
+|------|-------|--------|-------------|
+| Home | `/` | ✅ Redesigned | Conversion-focused with value prop, proof, CTAs |
+| About | `/about` | ✅ Existing | Firm ethos, partner bios, philosophy |
+| Services Hub | `/services` | ✅ NEW | All services with preview cards |
+| Service Detail | `/services/*` | ✅ NEW | 6 individual service pages |
+| Work | `/work` | ✅ Existing | Case summaries (can be enhanced with CMS) |
+| Approach | `/approach` | ✅ Existing | Methodology: Core Story → Proof → Voice |
+| Press | `/press` | ✅ Existing | Auto-pull from Sanity CMS |
+| Contact | `/contact` | ✅ Enhanced | Form with qualification fields |
+
+---
+
+## Analytics & Tracking
+
+### Events Tracked
+
+The site automatically tracks these conversion events via Google Analytics 4:
+
+| Event | Trigger | Parameters |
+|-------|---------|------------|
+| `cta_book_call_click` | CTA button clicked | `location` (hero/nav/footer/service/etc.) |
+| `contact_form_submit` | Contact form submitted | `stage`, `budget`, `goal`, `timeline` |
+| `service_page_view` | Service page viewed | `service_slug` |
+| `case_study_view` | Case study page viewed | `case_study_slug` |
+| `case_study_scroll_75` | User scrolled 75% of case study | `case_study_slug` |
+| `service_cta_click` | CTA clicked on service page | `service_slug` |
+
+### Setup
+
+1. Add your GA4 Measurement ID to `.env.local`:
+   ```
+   NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+   ```
+
+2. All tracking is automatic via the `GoogleAnalytics` component and `lib/analytics.ts` helpers
+
+---
+
+## Content Management (Sanity)
+
+See [CONTENT_GUIDE.md](./CONTENT_GUIDE.md) for detailed instructions.
+
+### Quick Start
+
+**Running Sanity Studio:**
+```bash
+npm run sanity:dev
+```
+Studio runs at `http://localhost:3333`
+
+**Content Types:**
+- **Case Study**: Client work with results, proof, testimonials
+- **Service**: Service offerings with deliverables, outcomes, pricing
+- **Press Release**: Press coverage
+- **Page**: Static page content
+
+**Homepage Content:**
+- Edited in code (`app/page.tsx`)
+- Includes: hero, proof bar, testimonials, FAQ, engagement options
 
 ---
 
@@ -140,14 +227,7 @@ north-and-line/
 - **Subhead:** clamp(1.25rem, 2vw, 1.5rem)
 - **Body:** 1rem / 1.6
 - **Caption:** 0.875rem
-- **Small:** 0.75rem (uppercase labels)
-
-### Grid
-
-- 12 columns
-- Max width: 1280px
-- Gutters: 24px
-- Page margins: clamp(24px, 5vw, 80px)
+- **Label:** 0.75rem (uppercase)
 
 ### Motion
 
@@ -155,43 +235,6 @@ north-and-line/
 - Timing: `cubic-bezier(0.25, 0.1, 0.25, 1)`
 - Duration: 400-600ms
 - No parallax effects
-
-### Brand Element
-
-The "+" symbol serves as:
-- Logo mark
-- Hover indicator
-- Scroll progress symbol
-- List bullet (outcomes)
-
----
-
-## Content Management (Sanity)
-
-### Schemas
-
-**Press Release**
-- title, slug, date, category, excerpt, content, mediaContact
-
-**Case Study**
-- title, slug, sector, year, challenge, approach, outcomes, testimonial, coverImage, featured
-
-**Page**
-- title, slug, description, content (block content)
-
-### Running Sanity Studio
-
-```bash
-npm run sanity:dev
-```
-
-Studio runs at `http://localhost:3333`
-
-### Deploying Sanity Studio
-
-```bash
-npm run sanity:deploy
-```
 
 ---
 
@@ -218,101 +261,102 @@ npm run lint    # Run ESLint
 
 ---
 
-## Font Setup
+## Development Workflow
 
-GT America must be licensed and self-hosted. Place font files in:
+### Making Content Changes
 
-```
-public/fonts/
-├── GTAmerica-Regular.woff2
-└── GTAmerica-Medium.woff2
-```
+1. **CMS Content** (Case Studies, Services):
+   - Use Sanity Studio at `localhost:3333`
+   - Changes appear live within ~60 seconds
 
-The fonts are loaded in `app/globals.css` via `@font-face` declarations.
+2. **Homepage Content** (Hero, FAQ, etc.):
+   - Edit `app/page.tsx`
+   - Requires code deployment
 
----
+3. **Navigation/CTAs**:
+   - Edit `components/Header.tsx` and `components/Footer.tsx`
+   - Requires code deployment
 
-## Analytics Setup
+### Adding New Pages
 
-### Plausible (Recommended)
-
-Add to `layout.tsx`:
-
-```tsx
-<Script
-  defer
-  data-domain="northandline.com"
-  src="https://plausible.io/js/script.js"
-/>
-```
-
-### Google Analytics 4
-
-Add to `layout.tsx`:
-
-```tsx
-<Script
-  src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
-  strategy="afterInteractive"
-/>
-```
+1. Create directory in `app/`
+2. Add `page.tsx` with metadata export
+3. Update navigation in `components/Header.tsx`
+4. Add to `app/sitemap.ts`
 
 ---
 
-## Stretch Features (Phase 2)
+## Performance Targets
 
-- [ ] Automated "Coverage Log" feed (pulls headlines + dates)
-- [ ] RSS / Email digest integration
-- [ ] Light / dark toggle based on OS preference
-- [ ] Individual case study pages with rich content
-- [ ] Team member detail pages
-
----
-
-## Content Workflow
-
-### Adding a Press Release
-
-1. Open Sanity Studio
-2. Navigate to "Press Releases"
-3. Click "Create new"
-4. Fill in required fields (title, date, category, excerpt)
-5. Add content blocks as needed
-6. Publish
-
-Changes appear on the live site within ~60 seconds (ISR).
-
-### Updating Case Studies
-
-Case studies are currently hardcoded in `app/work/page.tsx`. To make them CMS-driven:
-
-1. Uncomment the Sanity fetch in `app/work/page.tsx`
-2. Add case studies in Sanity Studio
-3. Remove placeholder data
+- **Lighthouse Performance:** 90+
+- **First Contentful Paint:** < 1.5s
+- **Cumulative Layout Shift:** < 0.1
+- **Build output:** ~137 KB First Load JS (homepage)
 
 ---
 
-## Development Notes
-
-### Code Style
-
-- TypeScript strict mode enabled
-- ESLint + Prettier for formatting
-- Tailwind for styling (no CSS modules)
-- Server Components by default, 'use client' only when needed
-
-### Performance Targets
-
-- Lighthouse Performance: 95+
-- First Contentful Paint: < 1.5s
-- Cumulative Layout Shift: < 0.1
-
-### Accessibility
+## Accessibility
 
 - Semantic HTML throughout
 - Focus states on all interactive elements
-- Sufficient color contrast (WCAG AA)
+- Color contrast: WCAG AA compliant
+- Keyboard navigable
 - Screen reader tested
+- Reduced motion preference respected
+
+---
+
+## Conversion Optimization Features
+
+✅ **Clear Value Proposition** - Hero explicitly states who it's for and what outcome to expect
+✅ **Social Proof** - Metrics, case studies, testimonials throughout
+✅ **Lead Qualification** - Contact form collects stage, budget, goal, timeline
+✅ **Multiple CTAs** - "Book a call" appears in nav, hero, sections, footer
+✅ **Trust Signals** - Client testimonials, quantified results, coverage proof
+✅ **Clear Services** - 6 detailed service pages with deliverables and pricing
+✅ **FAQ Section** - Addresses objections proactively
+✅ **Analytics Tracking** - All conversion events instrumented
+
+---
+
+## Security
+
+- No known vulnerabilities (CodeQL scanned)
+- No secrets in code
+- Environment variables for sensitive data
+- HTTPS enforced (via Vercel)
+- Content Security Policy headers recommended
+
+---
+
+## Maintenance
+
+### Regular Updates
+
+- **Monthly:** Review and update proof bar metrics
+- **Quarterly:** Add new case studies, update services
+- **As needed:** Update FAQ, testimonials, team bios
+
+### Monitoring
+
+- Check GA4 dashboard weekly for conversion rates
+- Monitor Vercel analytics for performance
+- Review Sanity Studio for content freshness
+
+---
+
+## Getting Help
+
+### Documentation
+
+- [CONTENT_GUIDE.md](./CONTENT_GUIDE.md) - Content management
+- [IMPLEMENTATION_GUIDE.md](./IMPLEMENTATION_GUIDE.md) - Design system
+- [Sanity Docs](https://www.sanity.io/docs) - CMS documentation
+- [Next.js Docs](https://nextjs.org/docs) - Framework documentation
+
+### Support
+
+For technical questions: dev@northandline.com
 
 ---
 
@@ -322,6 +366,36 @@ Proprietary. All rights reserved.
 
 ---
 
-## Contact
+## Changelog
 
-For technical questions: [dev@northandline.com]
+### v1.1.0 - Conversion-Focused Overhaul (2026-01)
+
+**Added:**
+- Complete homepage redesign with conversion focus
+- 6 service detail pages (/services/*)
+- Enhanced contact form with qualification fields
+- GA4 analytics integration with custom events
+- Type-safe analytics helpers
+- Dynamic sitemap and robots.txt
+- Comprehensive content management documentation
+- FAQ accordion component
+- CTA button and CTA band components
+- Service and case study card components
+- Testimonial component
+
+**Enhanced:**
+- Header with "Book a call" CTA
+- Contact form with stage/budget/goal/timeline fields
+- Case Study schema with detailed fields
+- New Service schema for CMS
+
+**Technical:**
+- Improved type safety throughout
+- Reduced code duplication in analytics
+- Better SEO with sitemap/robots
+- All builds passing, zero security vulnerabilities
+
+---
+
+Built with precision. Maintained with care.
+

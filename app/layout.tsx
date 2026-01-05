@@ -3,6 +3,8 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ScrollProgress from '@/components/ScrollProgress';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
+import AnalyticsTracker from '@/components/AnalyticsTracker';
 
 export const metadata: Metadata = {
   title: {
@@ -59,6 +61,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col">
+        <GoogleAnalytics />
+        <AnalyticsTracker />
         <ScrollProgress />
         <Header />
         <main className="flex-1">
