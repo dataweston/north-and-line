@@ -4,12 +4,13 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import CTAButton from './CTAButton';
 
 const navItems = [
   { href: '/about', label: 'About' },
+  { href: '/services', label: 'Services' },
   { href: '/work', label: 'Work' },
   { href: '/approach', label: 'Approach' },
-  { href: '/press', label: 'Press' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -53,28 +54,38 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <ul className="hidden md:flex items-center gap-8 lg:gap-12">
-            {navItems.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`text-caption uppercase tracking-wider transition-colors duration-300 relative
-                    ${pathname === item.href 
-                      ? 'text-nl-black' 
-                      : 'text-nl-gray hover:text-nl-black'
-                    }`}
-                >
-                  {item.label}
-                  {pathname === item.href && (
-                    <motion.span
-                      layoutId="nav-underline"
-                      className="absolute -bottom-1 left-0 right-0 h-px bg-nl-black"
-                    />
-                  )}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <div className="hidden md:flex items-center gap-8 lg:gap-12">
+            <ul className="flex items-center gap-8 lg:gap-12">
+              {navItems.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`text-caption uppercase tracking-wider transition-colors duration-300 relative
+                      ${pathname === item.href 
+                        ? 'text-nl-black' 
+                        : 'text-nl-gray hover:text-nl-black'
+                      }`}
+                  >
+                    {item.label}
+                    {pathname === item.href && (
+                      <motion.span
+                        layoutId="nav-underline"
+                        className="absolute -bottom-1 left-0 right-0 h-px bg-nl-black"
+                      />
+                    )}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <CTAButton
+              href="/contact"
+              location="nav"
+              variant="secondary"
+              className="ml-4"
+            >
+              Book a call
+            </CTAButton>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -132,6 +143,16 @@ export default function Header() {
                   </Link>
                 </motion.li>
               ))}
+              <motion.li
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: navItems.length * 0.05 }}
+                className="pt-4 border-t border-nl-light-gray"
+              >
+                <CTAButton href="/contact" location="nav">
+                  Book a call
+                </CTAButton>
+              </motion.li>
             </ul>
           </motion.div>
         )}
