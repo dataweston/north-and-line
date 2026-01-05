@@ -4,9 +4,26 @@ import { useState } from 'react';
 import PageHeader from '@/components/PageHeader';
 import Section from '@/components/Section';
 import FadeIn from '@/components/FadeIn';
+import { trackContactFormSubmit } from '@/lib/analytics';
+
+type FormStageType = 'pre-seed' | 'seed' | 'series-a' | 'series-b' | 'growth' | 'established' | 'other' | '';
+type FormBudgetType = 'under-5k' | '5k-10k' | '10k-20k' | '20k-plus' | 'project' | 'flexible' | '';
+type FormGoalType = 'launch' | 'fundraise' | 'reposition' | 'ongoing-press' | 'executive-visibility' | 'crisis' | 'other' | '';
+type FormTimelineType = 'now' | '30d' | '90d' | 'exploring' | '';
+
+interface FormState {
+  name: string;
+  email: string;
+  company: string;
+  stage: FormStageType;
+  budget: FormBudgetType;
+  goal: FormGoalType;
+  timeline: FormTimelineType;
+  message: string;
+}
 
 export default function ContactPage() {
-  const [formState, setFormState] = useState({
+  const [formState, setFormState] = useState<FormState>({
     name: '',
     email: '',
     company: '',
@@ -29,14 +46,12 @@ export default function ContactPage() {
     setIsSubmitting(true);
     
     // Track form submission
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'contact_form_submit', {
-        stage: formState.stage,
-        budget: formState.budget,
-        goal: formState.goal,
-        timeline: formState.timeline,
-      });
-    }
+    trackContactFormSubmit({
+      stage: formState.stage,
+      budget: formState.budget,
+      goal: formState.goal,
+      timeline: formState.timeline,
+    });
     
     // Simulate form submission
     // In production, this would POST to an API endpoint

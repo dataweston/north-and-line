@@ -3,6 +3,18 @@
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
+// Type-safe analytics interface
+interface AnalyticsEvent {
+  event: string;
+  params?: Record<string, string | number | boolean>;
+}
+
+function trackEvent({ event, params }: AnalyticsEvent) {
+  if (typeof window !== 'undefined' && (window as any).gtag) {
+    (window as any).gtag('event', event, params);
+  }
+}
+
 export function usePageTracking() {
   const pathname = usePathname();
 
@@ -15,15 +27,21 @@ export function usePageTracking() {
 
       // Track service page views
       if (pathname.startsWith('/services/')) {
-        (window as any).gtag('event', 'service_page_view', {
-          service_slug: pathname.split('/').pop(),
+        trackEvent({
+          event: 'service_page_view',
+          params: {
+            service_slug: pathname.split('/').pop() || '',
+          },
         });
       }
 
       // Track case study views
       if (pathname.startsWith('/work/') && pathname !== '/work') {
-        (window as any).gtag('event', 'case_study_view', {
-          case_study_slug: pathname.split('/').pop(),
+        trackEvent({
+          event: 'case_study_view',
+          params: {
+            case_study_slug: pathname.split('/').pop() || '',
+          },
         });
       }
     }
@@ -45,13 +63,14 @@ export function useScrollTracking(threshold: number = 75) {
       if (scrollPercentage >= threshold) {
         tracked = true;
         
-        if (typeof window !== 'undefined' && (window as any).gtag) {
-          // Track case study scroll depth
-          if (pathname.startsWith('/work/') && pathname !== '/work') {
-            (window as any).gtag('event', 'case_study_scroll_75', {
-              case_study_slug: pathname.split('/').pop(),
-            });
-          }
+        // Track case study scroll depth
+        if (pathname.startsWith('/work/') && pathname !== '/work') {
+          trackEvent({
+            event: 'case_study_scroll_75',
+            params: {
+              case_study_slug: pathname.split('/').pop() || '',
+            },
+          });
         }
       }
     };
@@ -62,9 +81,28 @@ export function useScrollTracking(threshold: number = 75) {
 }
 
 export function trackServiceCTA(serviceSlug: string) {
-  if (typeof window !== 'undefined' && (window as any).gtag) {
-    (window as any).gtag('event', 'service_cta_click', {
+  trackEvent({
+    event: 'service_cta_click',
+    params: {
       service_slug: serviceSlug,
-    });
-  }
+    },
+  });
 }
+
+export function trackCTAClick(location: string) {
+  trackEvent({
+    event: 'cta_book_call_click',
+    params: {
+      location,
+    },
+  });
+}
+
+export function trackContactFormSubmit(params: Record<string, string>) {
+  trackEvent({
+    event: 'contact_form_submit',
+    params,
+  });
+}
+
+export { trackEvent };

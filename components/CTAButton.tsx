@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { trackCTAClick } from '@/lib/analytics';
 
 interface CTAButtonProps {
   href?: string;
@@ -24,11 +24,7 @@ export default function CTAButton({
 }: CTAButtonProps) {
   const handleClick = () => {
     // Track CTA click event
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'cta_book_call_click', {
-        location: location,
-      });
-    }
+    trackCTAClick(location);
 
     if (onClick) {
       onClick();

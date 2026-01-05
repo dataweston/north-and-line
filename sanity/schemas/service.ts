@@ -27,8 +27,8 @@ export default defineType({
       title: 'Short Pitch',
       type: 'text',
       rows: 2,
-      description: 'Brief one-liner for service cards (50-80 chars)',
-      validation: (Rule) => Rule.required().max(150),
+      description: 'Brief one-liner for service cards (aim for 50-80 characters)',
+      validation: (Rule) => Rule.required().max(120),
     }),
     defineField({
       name: 'description',
